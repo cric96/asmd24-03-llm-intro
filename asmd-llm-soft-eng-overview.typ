@@ -43,7 +43,7 @@
     preamble: pdfpc-config, 
   ),
   config-info(
-    title: [Leveraging Large Language Models in Software Engineering],
+    title: [Leveraging LLMs in Software Engineering],
     subtitle: [LLM Primer and Overview],
     author: [Gianluca Aguzzi],
     date: datetime.today().display("[day] [month repr:long] [year]"),
@@ -68,13 +68,16 @@
 == Today Lesson (Seriously)
 - #text(weight: "bold")[Goal:] Understand the fundamentals of Natural Language Processing (NLP) and Language Models (LM).
 
-  - From a ``pratictal'' perspective.
+  - From a "pratictal" perspective.
   - Understading the basic concepts and the common tasks.
   - How to use them from API and libraries.
-  - How to ``tune'' them for specific (soft. eng.) tasks.
+  - How to "tune" them for specific (soft. eng.) tasks.
 - #text(weight: "bold")[Note:]
   - We will not dive too much into the details of the algorithms and the mathematics behind them.
   - For this, please refer to the resources provided and the course on NLP.
+- #text(weight: "bold")[Next:]
+  - Vertical focus on the use of LLM in Software Engineering.
+  - Research oriented directions.
 
 == NLP & Soft. Eng. -- Why BTW?
 #align(center)[
