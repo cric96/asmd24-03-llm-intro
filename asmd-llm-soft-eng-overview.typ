@@ -858,8 +858,6 @@ Transformers overcome these limitations by: #fa-rocket()
   #image("figures/generalistic-agent.jpeg", width: 90%)
 ]
 
-#footnote[#link("https://github.blog/2023-03-22-github-copilot-x-the-ai-powered-developer-experience/")]
-
 == LLM Concerns -- Training Cost
 #align(center)[
   #image("figures/training-cost.jpg", width: 80%)
@@ -875,3 +873,189 @@ Transformers overcome these limitations by: #fa-rocket()
 #align(center)[
   #image("figures/hallucinations.png", width: 100%)
 ]
+
+= LLM in Practice -- API and Prompt Engineering
+
+== Interact with LLMs
+
+
+- Via direct API: using the weights of the model.
+  - #fa-thumbs-up() #h(0.4em) Full access to the model, it can be also fine-tuned
+  - #fa-thumbs-down() #h(0.4em)  Sometimes you do not have access to model weights (e.g., GPT-3)
+  - #fa-thumbs-down() #h(0.4em)  Sometimes even if the model is open, it is too #emph[big] to be used in a local environment (e.g., Falcon 180b)
+
+- Via HTTP API: using a #emph[web service] that wraps the model.
+  - OpenAI as reference#footnote(link("https://platform.openai.com/"))
+  - #fa-thumbs-up() #h(0.4em) Easy to use
+  - #fa-thumbs-up() #h(0.4em) Can be used in #emph[any] environment
+  - #fa-thumbs-up() #h(0.4em) Can also be used with #emph[local] models (e.g., ollama)
+  - #fa-thumbs-up() #h(0.4em) it supports both synchronous and asynchronous requests
+
+== Ollama
+#align(center)[
+  #image("figures/ollama.png", width: 30%)
+  
+  #link("https://ollama.com/")
+]
+
+- A platform that wraps LLMs in a web service.
+  - More than 60 models available.
+  - Allow customizing the model.
+  - Native performance for LLMs.
+  - Support both embedding and generation tasks.
+
+- How to use?
+  - Pull a model: `ollama pul llama3.2`
+  - Use the model: `ollama run llama3.2`
+  - Start a web service: `ollama serve`
+
+
+== LangChain
+#align(center)[
+  #image("figures/logo.png", width: 50%)
+  
+  #link("https://github.com/langchain-ai/langchain")
+]
+
+- A framework for developing applications powered by language models.
+- Features:  
+  - Support several API providers (e.g., OpenAI, Ollama, etc.)
+  - Support the combination of several processing steps (e.g., prompting, chaining, etc.)
+  - Support the context retrivial (e.g., RAG)
+- In this course we will use the Java version of the framework.
+  - #link("https://github.com/langchain4j/langchain4j")
+#focus-slide()[
+  == Demo
+  #link("https://github.com/cric96/asmd-llm-code")
+]
+
+== LLM in Practice -- Prompt Engineering
+
+- #text(weight: "bold")[Prompt Engineering] is the art of crafting the right instructions for the model to perform a specific task.
+
+- #text(weight: "bold")[Prompts] are the input text that guides the model's behavior.
+  - They can be as simple as a few words or as complex as a full paragraph.
+  - They can be used to steer the model towards a specific task or style of output.
+  - They can be used to provide context or constraints for the model's output.
+
+- For an overview of the best practices in prompt engineering, see the #link("https://www.promptingguide.ai/")[Prompt Engineering Handbook].
+
+== Prompt Engineering -- Zero Shot
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Zero-shot Learning] allows a model to perform a task without any training examples.
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 50%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Key Concepts]
+        
+        - Model is given a prompt describing the task
+        - Uses pre-existing knowledge from training
+        - No examples or fine-tuning required
+        - Works for tasks never explicitly taught
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 50%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Example]
+        
+        #text(weight: "bold")[Intent:] Sentiment classification
+        
+        #text(weight: "bold")[Prompt:] "Classify the sentiment of this review as positive, negative, or neutral: 'This restaurant had amazing food but terrible service.'"
+        
+        #text(weight: "bold")[Output:] "Mixed" or "Negative leaning" (shows nuanced understanding without examples)
+      ]
+    )
+  ]
+)
+
+== Prompt Engineering -- Few Shot
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Few-shot Learning]
+    perform a task with just a few examples provided directly in the prompt.
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 75%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Key Concepts]
+        
+        - Model is given a prompt with a few labeled examples
+        - Examples demonstrate the desired pattern or format
+        - Examples act as implicit instructions for the task
+        - Model learns to mimic the pattern in new cases
+        - Significantly improves performance over zero-shot
+        - Bridges general knowledge and specific task requirements
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 75%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Example]
+      
+        #text(weight: "bold")[Intent:] Classifying emails
+        
+        #text(weight: "bold")[Prompt:] 
+        ```
+        Classify the following emails as SPAM or NOT SPAM:
+        Email: "Congratulations! You've won $1,000,000 in our lottery!" -> SPAM
+        Email: "Meeting scheduled for tomorrow at 2pm in the conference room." -> NOT SPAM
+        Email: "Your account has been compromised."
+        Classification: 
+        ```
+        
+        #text(weight: "bold")[Output:] "SPAM" (model learns the pattern from examples)
+      ]
+    )
+  ]
+)
