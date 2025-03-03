@@ -68,8 +68,8 @@
 == Today Lesson (Seriously)
 - #text(weight: "bold")[Goal:] Understand the fundamentals of Natural Language Processing (NLP) and Language Models (LM).
 
-  - From a "pratictal" perspective.
-  - Understading the basic concepts and the common tasks.
+  - From a "practical" perspective.
+  - Understanding the basic concepts and the common tasks.
   - How to use them from API and libraries.
   - How to "tune" them for specific (soft. eng.) tasks.
 - #text(weight: "bold")[Note:]
@@ -126,7 +126,6 @@
   - #link("https://github.com/keon/awesome-nlp?tab=readme-ov-file")
   - #link("https://github.com/brianspiering/awesome-dl4nlp")
   - #link("https://nlpprogress.com/")
-  - #link("https://www.unibo.it/it/studiare/dottorati-master-specializzazioni-e-altra-formazione/insegnamenti/insegnamento/2023/412644")
   - #link("https://www.youtube.com/watch?v=LPZh9BOjkQs")
   ]
 ]
@@ -672,10 +671,10 @@ Transformers overcome these limitations by: #fa-rocket()
       [
         #text(weight: "bold")[Decoding Strategies]
         
-        - #text(weight: "bold")[Greedy:] Always choose highest probability token
+        - #text(weight: "bold")[Greedy:] Always choose the highest probability token
         - #text(weight: "bold")[Random:] Sample from the probability distribution
         - #text(weight: "bold")[Top-k:] Sample from k most likely tokens
-        - #text(weight: "bold")[Top-p/Nucleus:] Sample from smallest set with probability > p
+        - #text(weight: "bold")[Top-p/Nucleus:] Sample from the smallest set with probability > p
         - #text(weight: "bold")[Beam Search:] Track multiple candidate sequences
       ]
     )
