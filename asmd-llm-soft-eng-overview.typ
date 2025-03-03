@@ -57,11 +57,54 @@
 
 #title-slide()
 
+= Introduction 
 
 == Today Lesson in a Nutshell
 #align(center)[
     #image("figures/meme.jpg", width: 60%)
   ]
+
+
+== Today Lesson (Seriously)
+- #text(weight: "bold")[Goal:] Understand the fundamentals of Natural Language Processing (NLP) and Language Models (LM).
+
+  - From a ``pratictal'' perspective.
+  - Understading the basic concepts and the common tasks.
+  - How to use them from API and libraries.
+  - How to ``tune'' them for specific (soft. eng.) tasks.
+- #text(weight: "bold")[Note:]
+  - We will not dive too much into the details of the algorithms and the mathematics behind them.
+  - For this, please refer to the resources provided and the course on NLP.
+
+== NLP & Soft. Eng. -- Why BTW?
+#align(center)[
+  #image("figures/copilot.png", width: 80%)
+
+]
+== NLP & Soft. Eng. -- Why BTW?
+#align(center)[
+  #image("figures/copilot copy.png", width: 100%)
+]
+
+== NLP & Soft. Eng. -- Why BTW?
+#align(center)[
+  #image("figures/soft-eng-improvements.png", width: 50%)
+]
+== NLP & Soft. Eng. -- Why Should We Care?
+- The Software Engineering landscape is *rapidly evolving*: #fa-rocket()
+  - AI pair programmers (like Copilot) are becoming ubiquitous tools #fa-robot()
+  - LLMs can now handle tasks previously requiring human expertise: #fa-brain()
+    - Intelligent code completion #fa-code()
+    - Automated documentation generation #fa-file-alt()
+    - Assisted refactoring and optimization #fa-wrench()
+    - Test case generation #fa-vial()
+  - Key questions for modern developers: #fa-question-circle()
+    - What will be our role in this AI-augmented future? #fa-user-cog()
+    - How can we best leverage NLP to enhance our productivity? #fa-chart-line()
+    - Which skills remain uniquely human in software development? #fa-fingerprint()
+  - Understanding this technology isn't optional—it's essential for staying relevant #fa-lightbulb() #fa-exclamation()
+
+= Natural Language Processing and (Large) Language Models
 
 == Natural Langauge Processing
 #align(center)[
@@ -73,8 +116,6 @@
     A subfield of artificial intelligence that focuses #emph[understanding], #emph[interpreting], and #emph[generating] human language.
   ]
   #v(1em)
-  
-  
 ]
 #text(size: 18pt, weight: "bold")[Resources]
   #set list(indent: 1em)
@@ -84,10 +125,11 @@
   - #link("https://www.unibo.it/it/studiare/dottorati-master-specializzazioni-e-altra-formazione/insegnamenti/insegnamento/2023/412644")
   - #link("https://www.youtube.com/watch?v=LPZh9BOjkQs")
 
+
 == Natural Language Processing
 
 #block(
-  fill: rgb("#c5e0d8ab"), 
+  fill: rgb("#c5e0d880"), 
   width: 100%,
   inset: 1em,
   radius: 8pt,
@@ -199,7 +241,7 @@ fill: rgb("#FDE8E9"),  // Light gray
 ]
 == Language Models
 #block(
-  fill: rgb("#c5e0d8ab"), 
+  fill: rgb("#c5e0d880"), 
   width: 100%,
   inset: 1em,
   radius: 8pt,
@@ -265,7 +307,7 @@ fill: rgb("#FDE8E9"),  // Light gray
 
 == Tokenization
 #block(
-  fill: rgb("#c5e0d8ab"), 
+  fill: rgb("#c5e0d880"), 
   width: 100%,
   inset: 1em,
   radius: 8pt,
@@ -333,7 +375,7 @@ fill: rgb("#FDE8E9"),  // Light gray
 
 == Embedding
 #block(
-  fill: rgb("#c5e0d8ab"), 
+  fill: rgb("#c5e0d880"), 
   width: 100%,
   inset: 1em,
   radius: 8pt,
@@ -341,7 +383,7 @@ fill: rgb("#FDE8E9"),  // Light gray
   [
     #text(weight: "bold")[Embedding: Converting Words to Numbers]
     
-    Translating tokens into numerical vectors that capture semantic meaning.
+    Translating tokens into numerical vectors that capture *semantic meaning*.
   ]
 )
 
@@ -390,6 +432,242 @@ fill: rgb("#FDE8E9"),  // Light gray
         - Enables semantic operations:
           "king" - "man" + "woman" ≈ "queen"
         - Forms foundation for downstream tasks
+      ]
+    )
+  ]
+)
+
+
+== Embedding -- Visual Example
+#align(
+  center,
+  block[
+    #image("figures/embedding-meaning.png", width: 100%)
+  ]
+)
+
+== Modelling -- How?
+#align(
+  center,
+  block[
+    #image("figures/text-generation.png", width: 100%)
+  ]
+)
+
+
+== Modelling -- How?
+#align(
+  center,
+  block[
+    #image("figures/cnn-text.png", width: 100%)
+  ]
+)
+
+== Modelling -- CNN and RNN Limitations
+#text(weight: "bold")[Limitations of Traditional Approaches]
+
+- #text(weight: "bold")[RNN:] Long-term dependencies are hard to capture
+- #text(weight: "bold")[RNN:]  Slow to train; not suitable for large-scale data
+- #text(weight: "bold")[CNN:] Fixed-size input window; not suitable for variable-length text
+- #text(weight: "bold")[Both:] Struggle with large-scale parallelization
+- #text(weight: "bold")[Solution:] #fa-lightbulb() #emph[Multi-head self-attention] — the core of #emph[transformers]
+
+Transformers overcome these limitations by: #fa-rocket()
+- Processing entire sequences in parallel #fa-bolt()
+- Using attention to weigh token importance #fa-balance-scale()
+- Capturing relationships across arbitrary distances #fa-project-diagram()
+- Enabling efficient training on massive datasets #fa-database()
+
+== Transformers -- Visual
+#align(
+  center,
+  block[
+    #image("figures/TransformerBasedTranslator.png", width: 100%)
+  ]
+)
+== Transformers Architecture
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Transformers: State-of-the-Art for Language Models]
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 70%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Architecture Types]
+        
+        - #text(weight: "bold")[Encoder-only:]
+          - Creates embeddings from input text
+          - Use: Classification, token prediction
+          - Examples: BERT, RoBERTa
+          
+        - #text(weight: "bold")[Decoder-only:]
+          - Generates new text based on context
+          - Use: Continuations, chat responses
+          - Examples: *GPT family, LLaMA*
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 70%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Full Transformers]
+        
+        - Contains both encoder and decoder
+        - #text(weight: "bold")[Encoder:] Processes input into intermediate representation
+        - #text(weight: "bold")[Decoder:] Converts representation into output text
+        - Example use case: Translation
+          - English → Intermediate representation → French
+        - Examples: *T5, BART, Marian MT*
+      ]
+    )
+  ]
+)
+
+== Transformers -- Self-attention
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Self-attention: The Key to Context Understanding]
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 60%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[The Core Question]
+        
+        For each token, self-attention asks:
+
+        "How much does each other token affect the interpretation of this token?"
+        
+        - Attention weights determine token relationships
+        - "Self" means within the same input sequence
+        - Enables context-aware understanding
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 60%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Example]
+        
+        "The animal didn't cross the street because it was too tired."
+        
+        - Each word pays attention to all others
+        - Pronoun "it" is *ambiguous*
+        - Self-attention reveals: "it" refers to "animal"
+        - Resolves dependencies across *arbitrary distances*
+      ]
+    )
+  ]
+)
+
+== Self-attention -- Visual
+
+#align(
+  center,
+  block[
+    #image("figures/self-attention.png", width: 50%)
+  ]  
+)
+- Self-attention calculates *weighted relationships* between every token #fa-arrows-alt()
+- These relationships reveal which parts of text should *influence* each token #fa-lightbulb()
+- Attention weights are *learned parameters* during model training #fa-cogs()
+- Multi-head attention allows model to focus on *different relationship types* simultaneously #fa-layer-group()
+- This mechanism captures both *local and long-range dependencies* #fa-project-diagram()
+
+== Transformers -- Training
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Self-Supervised Learning]: The Key to LLM Training -- #link("https://bbycroft.net/llm")
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 65%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[What Makes It Self-Supervised?]
+        
+        - Data creates its *own supervision signal*
+        - No human annotations or labels needed
+        - Model learns to predict parts of its input
+        - Example: "The \_\_ of sleepy town weren't \_\_" #fa-arrow-right() "people, happy"
+        - Leverages *natural structure* in language itself
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 65%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Advantages]
+        
+        - Uses *unlimited* text data from the internet
+        - Scales efficiently with more data and compute
+        - Creates rich representations of language
+        - Learns grammar, facts, reasoning, and more
+        - Forms foundation for downstream adaptation
       ]
     )
   ]
