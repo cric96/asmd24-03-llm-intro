@@ -255,7 +255,7 @@ fill: rgb("#fde8e986"),  // Light gray
   [
     #text(weight: "bold")[ Fundamental Idea]
     
-    Text is a sequence of words, and language models learn the #emph[probability distribution] of a word given the previous words in context.
+    Text is a sequence of words, and language models learn the *probability distribution* of a word given the previous words in context.
   ]
 )
 
@@ -624,6 +624,155 @@ Transformers overcome these limitations by: #fa-rocket()
 - Multi-head attention allows model to focus on *different relationship types* simultaneously #fa-layer-group()
 - This mechanism captures both *local and long-range dependencies* #fa-project-diagram()
 
+== Text Generation: From Probabilities to Text 
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Text Generation]: Turning Model Output into Human-Readable Text
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 70%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[The Generation Process]
+        
+        1.  Model receives a prompt or seed text (e.g., "The cat sat on the...")
+        2.  Model predicts probabilities for the *next* token with self-attention
+        3.  A token is selected from this distribution based
+        4.  Selected token is added to the sequence
+        5.  Process repeats until stopping criterion is met
+        
+        #text(weight: "bold")[Key Idea:] Building a sequence one token at a time
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 70%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Decoding Strategies]
+        
+        - #text(weight: "bold")[Greedy:] Always choose highest probability token
+        - #text(weight: "bold")[Random:] Sample from the probability distribution
+        - #text(weight: "bold")[Top-k:] Sample from k most likely tokens
+        - #text(weight: "bold")[Top-p/Nucleus:] Sample from smallest set with probability > p
+        - #text(weight: "bold")[Beam Search:] Track multiple candidate sequences
+      ]
+    )
+  ]
+)
+
+== Text Generation: Temperature
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Temperature]: Controlling Randomness
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 70%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[How Temperature Works]
+        
+        - Modifies probability distribution before sampling
+        - Applied by dividing logits by temperature value
+        - Softmax function then applied to get new probabilities
+        
+        #text(weight: "bold")[Formula (Simplified):]
+        
+        `probabilities = softmax(logits / temperature)`
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 70%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[The Effect of Temperature]
+        
+        - #text(weight: "bold")[High (≥ 1.0):] Flatter distribution, more random and creative
+        - #text(weight: "bold")[Low (≈ 0.2):] Sharper distribution, more coherent but repetitive
+        - #text(weight: "bold")[Zero:] Equivalent to greedy decoding
+        
+        #text(weight: "bold")[Analogy:] Temperature controls the "spice level" of the text
+      ]
+    )
+  ]
+)
+
+== Text Generation: Example
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Example:] Generating Text with Different Temperatures
+  ]
+)
+
+#block(
+  fill: rgb("#e6e6e6"),
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Prompt:] The quick brown fox...
+    
+    #text(weight: "bold")[Temperature = 0.2:] The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox... (Repetitive)
+    
+    #text(weight: "bold")[Temperature = 0.7:] The quick brown fox jumps over the lazy dog. It was a sunny day, and the fox was happy.
+    
+    #text(weight: "bold")[Temperature = 1.2:] The quick brown fox dances with a sparkly unicorn under a rainbow made of cheese, giggling!
+    
+    #text(size: 10pt, style: "italic")[Note: These examples are illustrative. The actual output depends on the specific model.]
+  ]
+)
+
+
 == Large Language Model (LLM)
 #focus-slide()[
   #align(center)[
@@ -903,6 +1052,7 @@ Transformers overcome these limitations by: #fa-rocket()
   - Allow customizing the model.
   - Native performance for LLMs.
   - Support both embedding and generation tasks.
+  - It is possible to set several parameters (e.g., temperature, top-k, etc.)
 
 - How to use?
   - Pull a model: `ollama pul llama3.2`
@@ -960,7 +1110,7 @@ Transformers overcome these limitations by: #fa-rocket()
     #block(
       fill: rgb("#e6e6e6"),
       width: 100%,
-      height: 50%,
+      height: 55%,
       inset: 1em,
       radius: 8pt,
       stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
@@ -978,7 +1128,7 @@ Transformers overcome these limitations by: #fa-rocket()
     #block(
       fill: rgb("#e6e6e6"),
       width: 100%,
-      height: 50%,
+      height: 55%,
       inset: 1em,
       radius: 8pt,
       stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
@@ -987,9 +1137,14 @@ Transformers overcome these limitations by: #fa-rocket()
         
         #text(weight: "bold")[Intent:] Sentiment classification
         
-        #text(weight: "bold")[Prompt:] "Classify the sentiment of this review as positive, negative, or neutral: 'This restaurant had amazing food but terrible service.'"
+        #text(weight: "bold")[Prompt:] 
         
-        #text(weight: "bold")[Output:] "Mixed" or "Negative leaning" (shows nuanced understanding without examples)
+        ``` Classify the sentiment of this review as positive, negative, or neutral: 'This restaurant had amazing food but terrible service.```
+        
+        #text(weight: "bold")[Output:] 
+        ```
+        Negative/Mixed
+        ```
       ]
     )
   ]
@@ -1059,3 +1214,169 @@ Transformers overcome these limitations by: #fa-rocket()
     )
   ]
 )
+
+== Prompt Engineering -- Chain of Thought
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Chain of Thought] is a technique that involves chaining multiple prompts together to guide the model's output.
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 80%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Key Concepts]
+        
+        - Encourages model to show step-by-step reasoning
+        - Explicitly asks model to "think aloud" before answering
+        - Breaks complex problems into manageable steps
+        - Dramatically improves accuracy for reasoning tasks
+        - Reduces logical errors by exposing intermediate thinking
+        - Particularly effective for math, logic, and multi-step problems
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 80%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Example]
+      
+        #text(weight: "bold")[Intent:] Math word problem solving
+        
+        #text(weight: "bold")[Prompt:] 
+        ```
+        Solve this step-by-step:
+        
+        If John has 5 apples and gives 2 to Mary, then buys 3 more, 
+        how many apples does John have now?
+        ```
+        
+        #text(weight: "bold")[Output:] 
+        ```
+        Let me solve this step-by-step:
+        1. John starts with 5 apples
+        2. John gives 2 apples to Mary: 5 - 2 = 3 apples
+        3. John buys 3 more apples: 3 + 3 = 6 apples
+        John now has 6 apples.
+        ```
+      ]
+    )
+  ]
+)
+
+== Prompt Engineering -- Self-Consistency
+
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Self-Consistency] is a technique that involves asking the model to generate multiple outputs and ensure they are consistent with each other.
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 80%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Key Concepts]
+        
+        - Generates multiple independent solutions to a problem
+        - Cross-checks these outputs for logical consistency
+        - Reduces contradictions and reasoning errors
+        - Valuable for complex reasoning and math problems
+        - Improves reliability through logical coherence
+        - Often implemented via majority voting among solutions
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      height: 80%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Example]
+      
+        #text(weight: "bold")[Intent:] Reasoning with multiple paths
+        
+        #text(weight: "bold")[Prompt:] 
+        ```
+        Q: Today I have 6 apples. Tomorrow I buy 3 more.
+        How many apples do I have?
+        A: 9
+        Q: Today I have 6 apples. Yesterday I ate 6 apples, How many apples
+        do I have?
+        A: 6
+        Q: Today I have 6 apples. Tomorrow I buy 3 more. Yesterday I ate 6
+        apples, How many apples do I have?
+        ```
+        #text(weight: "bold")[Output:] 
+        ```
+        Answers: 6, 6, 9 => 6
+        ```
+      ]
+    )
+  ]
+)
+
+== Prompt Engineering -- Advanced Techniques
+
+- #text(weight: "bold")[Retrivial Augmented Generation (RAG):] Allow to enrich the prompt with additional information from a knowledge base.
+  - Used to provide context or constraints for the model's output.
+  - It reduces `hallucination` and improves the quality of the generated text.
+- #text(weight: "bold")[ReAct]: To generate both reasoning traces and task-specific actions in an interleaved manner. 
+  - It is used to improve the reasoning capabilities of the model.
+  - It is particularly effective for math, logic, and multi-step problems.
+    - It use function calls to guide the model in the reasoning process.
+
+- Some of these techniques are implemented in the LangChain framework.
+- We will see more about these techniques in the next sessions #fa-smile()
+
+== Conclusion
+- LLMs are #text(weight: "bold")[revolutionizing] the field of NLP and AI #fa-rocket()
+- This has also a significant #text(weight: "bold")[impact on Software Engineering] #fa-code()
+- Today: we have seen the #text(weight: "bold")[basics of LLMs] and how to interact with them #fa-check-circle()
+  - We have seen the importance of #text(weight: "bold")[prompt engineering] #fa-magic()
+  - We have seen how to #text(weight: "bold")[interact with them] through APIs #fa-plug()
+- Next Lesson: #fa-forward()
+  - Focus on the #text(weight: "bold")[use of LLMs in Software Engineering] #fa-tools()
+  - Divide by specific #text(weight: "bold")[tasks and applications] #fa-tasks()
+- *Lab*:
+  - #text(weight: "bold")[Hands-on] with LLMs #fa-keyboard()
+  - Use of #text(weight: "bold")[LangChain and Ollama]
+  - #text(weight: "bold")[Prompt Engineering] practice
