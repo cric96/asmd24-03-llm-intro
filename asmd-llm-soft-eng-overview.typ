@@ -108,8 +108,7 @@
   - Understanding this technology isn't optional—it's essential for staying relevant #fa-lightbulb() #fa-exclamation()
 
 = Natural Language Processing and (Large) Language Models
-
-== Natural Langauge Processing
+#focus-slide()[
 #align(center)[
   #text(size: 28pt, weight: "bold")[Natural Language Processing (NLP)]
   
@@ -120,13 +119,17 @@
   ]
   #v(1em)
 ]
-#text(size: 18pt, weight: "bold")[Resources]
+#align(left)[
+  #text(size: 18pt, weight: "bold")[Resources]
   #set list(indent: 1em)
+  #set text(font: "Fira Sans", weight: "light", size: 18pt)
   - #link("https://github.com/keon/awesome-nlp?tab=readme-ov-file")
   - #link("https://github.com/brianspiering/awesome-dl4nlp")
   - #link("https://nlpprogress.com/")
   - #link("https://www.unibo.it/it/studiare/dottorati-master-specializzazioni-e-altra-formazione/insegnamenti/insegnamento/2023/412644")
   - #link("https://www.youtube.com/watch?v=LPZh9BOjkQs")
+  ]
+]
 
 
 == Natural Language Processing
@@ -193,7 +196,7 @@
 == Natural Language Processing
 
 #block(
-fill: rgb("#FDE8E9"),  // Light gray
+fill: rgb("#fde8e986"),  // Light gray
   width: 100%,
   inset: 1em,
   radius: 8pt,
@@ -223,8 +226,8 @@ fill: rgb("#FDE8E9"),  // Light gray
     - _Goal_: Find a *Language Model* that understands and generates human language.
   ]
 )
-== Language Models
-#align(center)[
+#focus-slide()[
+  #align(center)[
   #text(size: 28pt, weight: "bold")[What is a #text(weight: "bold")[Language Model]?]
   
   #v(1em)
@@ -240,7 +243,7 @@ fill: rgb("#FDE8E9"),  // Light gray
       #image("figures/llm-nutshell.png", width: 80%)
     ]
   )
-  
+  ]
 ]
 == Language Models
 #block(
@@ -557,7 +560,7 @@ Transformers overcome these limitations by: #fa-rocket()
   radius: 8pt,
   stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
   [
-    #text(weight: "bold")[Self-attention: The Key to Context Understanding]
+    #text(weight: "bold")[Self-attention:] The Key to Context Understanding -- #link("https://bbycroft.net/llm")
   ]
 )
 
@@ -621,7 +624,28 @@ Transformers overcome these limitations by: #fa-rocket()
 - Multi-head attention allows model to focus on *different relationship types* simultaneously #fa-layer-group()
 - This mechanism captures both *local and long-range dependencies* #fa-project-diagram()
 
-== Transformers -- Training
+== Large Language Model (LLM)
+#focus-slide()[
+  #align(center)[
+    #text(size: 28pt, weight: "bold")[Large Language Model (LLM)]
+    
+    #v(1em)
+    
+    #text(size: 20pt)[
+      A #emph[language model] with a #emph[large] number of parameters, trained on a #emph[large] corpus of text.
+    ]
+  ]
+]
+== LLM -- Implementation Strategies
+
+- #text(weight: "bold")[Transformers] as the foundational architecture, characterized by:
+  - Long-range context (#emph[Attention])
+  - Efficient large-scale training (#emph[Parallelization])
+  - Model growth (#emph[Scalability])
+- #text(weight: "bold")[Pretraining:] Involves training the model on a vast corpus of text to learn a wide range of language patterns and structures.
+- #text(weight: "bold")[Fine-tuning:] Refines the pretrained model for specific tasks, enhancing its applicability and performance on targeted applications.
+
+== LLM -- Self-Supervised Phase
 #block(
   fill: rgb("#c5e0d880"), 
   width: 100%,
@@ -629,7 +653,7 @@ Transformers overcome these limitations by: #fa-rocket()
   radius: 8pt,
   stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
   [
-    #text(weight: "bold")[Self-Supervised Learning]: The Key to LLM Training -- #link("https://bbycroft.net/llm")
+    #text(weight: "bold")[Self-Supervised Learning]: Learning directly from data without human annotations
   ]
 )
 
@@ -675,3 +699,179 @@ Transformers overcome these limitations by: #fa-rocket()
     )
   ]
 )
+
+== LLM -- Training Paradigms
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[The Learning Cake:] An analogy to describe the layered approach in training methodologies.
+  ]
+)
+
+#block(
+  fill: rgb("#e6e6e6"),
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+  [
+    - #text(weight: "bold")[Self-supervised Learning:] Models learn patterns from unlabelled data, reducing the need for expensive annotations. Ideal for initial #emph[understanding] of language structures.
+    
+    - #text(weight: "bold")[Supervised Learning:] Enhances accuracy with labeled data, crucial for tasks requiring specific outcomes like #emph[classification] and #emph[translation].
+    
+    - #text(weight: "bold")[Reinforcement Learning:] Adapts through trial and error using rewards, fine-tuning decision-making skills in scenarios like #emph[dialogue generation] (chatbots).
+  ]
+)
+
+== LLM -- Paradigm Shift
+#align(center)[
+  #image("figures/llm-idea.jpg", width: 80%)
+]
+- LLMs are foundational for Modern NLP #fa-lightbulb() !!
+
+== LLM -- Foundational Models (GenAI)
+- A *Foundational Model* is a large model that serves as the basis for a wide range of downstream applications.
+- It is related to several generative AI models (diffusion, transformers, etc.).
+#align(center)[
+  #image("figures/foundation.jpg", width: 60%)
+]
+
+== Difference with Traditional Models
+#block(
+  fill: rgb("#c5e0d880"), 
+  width: 100%,
+  inset: 1em,
+  radius: 8pt,
+  stroke: (paint: rgb("#9aafa9"), thickness: 1pt),
+  [
+    #text(weight: "bold")[Traditional ML Pipeline vs. Foundation Model Approach]
+  ]
+)
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Traditional ML]
+        
+        - Task-specific datasets
+        - Models built for single purposes
+        - Linear development pipeline
+        - Requires retraining for new tasks
+        - Limited transfer of knowledge
+      ]
+    )
+  ],
+  [
+    #block(
+      fill: rgb("#e6e6e6"),
+      width: 100%,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
+      [
+        #text(weight: "bold")[Foundation Model Approach]
+        
+        - General knowledge acquisition first
+        - Adaptation to downstream tasks
+        - Efficient knowledge transfer
+        - Zero/few-shot capabilities
+        - Single model, multiple applications
+      ]
+    )
+  ]
+)
+
+- Adaptation is a kind of "transfer learning" to other tasks
+- With foundational LLMs, this adaptation may not require additional learning:
+  - LLMs function as zero-shot or few-shot learners (more details later)
+  - With just the right instructions (prompts), they can perform a wide range of tasks
+- This represents a fundamental paradigm shift in AI and NLP development
+
+== LLM -- Scalability
+#align(center)[
+  #image("figures/over-year.jpg", width: 100%)
+]
+
+== LLM -- Scalability
+#align(center)[
+  #image("figures/image-size.png", width: 100%)
+]
+
+== LLM -- Emergent Properties#footnote("Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S., ... & Zhou, D. (2022). Emergent abilities of large language models. arXiv preprint arXiv:2206.07682.")
+#align(center)[
+  #grid(
+    columns: 2,
+    gutter: 1em,
+    [#image("figures/small.jpg", width: 70%)],
+    [#image("figures/medium.jpg", width: 100%)]
+  )
+  
+  #v(1em)
+  #image("figures/big.jpg", width: 80%)
+]
+
+== LLM -- State-of-the-art foundational models
+
+- "Open" #fa-unlock() vs "Closed" #fa-lock() #h(0.4em) models
+  - Open #fa-arrow-right() #h(0.4em) are available for public use and research (you have access to the model and its parameters).
+  - Closed #fa-arrow-right() #h(0.4em) are proprietary and not available for public use or research (you can just use the API).
+- #text(weight: "bold")[GPT-\*] #fa-lock(): generative Pre-trained Transformer (OpenAI)
+  - State-of-the-art in #emph[language generation] and #emph[translation].
+  - GPT > 4 is multi-modal, capable of processing text, images, and audio.
+
+- #text(weight: "bold")[Gemini] #fa-lock(): most capable multi-modal model from Google.
+
+- #text(weight: "bold")[Llama \*] #fa-unlock(): Large Language Model Meta AI (Meta) 
+  - One of the first open source LLMs with a relevant number of parameters.
+
+- #text(weight: "bold")[DeepSeek] #fa-unlock(): a large-scale, open-source LLM with very low cost for training.
+- #text(weight: "bold")[Mistral#footnote("jiang2023mistral")/Mixtral#footnote(link("https://huggingface.co/docs/transformers/model_doc/mixtral"))/Falcon#footnote("almazrouei2023falcon")] #fa-unlock(): several completely open and transparent models from several companies.
+
+#align(center)[
+  More at: #link("https://lifearchitect.ai/models-table/")
+]
+
+== LLM Applications: Chatbots #footnote[#link("https://openai.com/blog/chatgpt")]
+#align(center)[
+  #image("figures/image.svg", width: 100%)
+]
+
+== LLM Applications: Medical Diagnosis #footnote[#link("https://sites.research.google/med-palm/")]
+#align(center)[
+  #image("figures/palm-med.png", width: 100%)
+]
+
+== Robotics #footnote[#link("https://deepmind.google/discover/blog/a-generalist-agent/")]
+#align(center)[
+  #image("figures/generalistic-agent.jpeg", width: 90%)
+]
+
+#footnote[#link("https://github.blog/2023-03-22-github-copilot-x-the-ai-powered-developer-experience/")]
+
+== LLM Concerns -- Training Cost
+#align(center)[
+  #image("figures/training-cost.jpg", width: 80%)
+]
+
+== LLM Concerns -- Privacy
+#align(center)[
+  #image("figures/italy-privacy-concern.png", width: 100%)
+]
+
+== LLM Concerns -- Hallucination
+#emph[Hallucination] is the generation of text that is not grounded in reality.
+#align(center)[
+  #image("figures/hallucinations.png", width: 100%)
+]
