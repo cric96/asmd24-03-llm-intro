@@ -643,7 +643,7 @@ Transformers overcome these limitations by: #fa-rocket()
     #block(
       fill: rgb("#e6e6e6"),
       width: 100%,
-      height: 70%,
+      height: 73%,
       inset: 1em,
       radius: 8pt,
       stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
@@ -651,7 +651,7 @@ Transformers overcome these limitations by: #fa-rocket()
         #text(weight: "bold")[The Generation Process]
         
         1.  Model receives a prompt or seed text (e.g., "The cat sat on the...")
-        2.  Model predicts probabilities for the *next* token with self-attention
+        2.  Model predicts probabilities for the *next* token based self-attention encoding
         3.  A token is selected from this distribution based
         4.  Selected token is added to the sequence
         5.  Process repeats until stopping criterion is met
@@ -664,7 +664,7 @@ Transformers overcome these limitations by: #fa-rocket()
     #block(
       fill: rgb("#e6e6e6"),
       width: 100%,
-      height: 70%,
+      height: 73%,
       inset: 1em,
       radius: 8pt,
       stroke: (paint: rgb("#c7c5c5"), thickness: 1pt),
