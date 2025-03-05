@@ -23,18 +23,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4.1.7
 
       - name: Install fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-inter
+          sudo apt-get install -y fonts-inter fonts-firacode
           wget https://github.com/FortAwesome/Font-Awesome/releases/download/6.4.2/fontawesome-free-6.4.2-desktop.zip
+          wget https://github.com/bBoxType/FiraSans/archive/master.zip
           unzip fontawesome-free-6.4.2-desktop.zip
+          unzip master.zip
           sudo mv fontawesome-free-6.4.2-desktop /usr/share/fonts
+          sudo mv FiraSans-master /usr/share/fonts
           sudo fc-cache -fv
         
-      - uses: typst-community/setup-typst@v4
+      - uses: yusancky/setup-typst@v3.1.0
         id: setup-typst
         with:
           version: 'latest'
@@ -43,7 +46,7 @@ jobs:
         run: for file in `ls *typ`; do typst compile $file; done
 
       - name: Upload PDF file
-        uses: actions/upload-artifact@v4.6.0
+        uses: actions/upload-artifact@v4.3.4
         with:
           name: PDF
           path: "*.pdf"
