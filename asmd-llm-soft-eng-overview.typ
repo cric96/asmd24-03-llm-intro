@@ -32,9 +32,10 @@
     preamble: pdfpc-config, 
   ),
   config-info(
-    title: [Leveraging LLMs in Software Engineering],
-    subtitle: [LLM Primer and Overview],
+    title: [Large Language Models],
+    subtitle: [An Overview for Software Engineers],
     author: [Gianluca Aguzzi],
+    email: "gianluca.aguzzi@unibo.it",
     date: datetime.today().display("[day] [month repr:long] [year]"),
     institution: [Università di Bologna],
     // logo: emoji.school,
@@ -51,17 +52,18 @@
 
 = Introduction 
 
-== Today Lesson in a Nutshell
-#align(center)[
-    #image("figures/meme.jpg", width: 60%)
-  ]
+// == Today Lesson in a Nutshell
+// #align(center)[
+//    #image("figures/meme.jpg", width: 60%)
+//  ]
 
 
-== Today Lesson (Seriously)
+== Today Lesson
 - *Goal:* Understand the fundamentals of Natural Language Processing (NLP) and Language Models (LM).
 
-  - From a "practical" perspective.
+  - From a "practical" and "software engineering" perspective.
   - Understanding the basic concepts and the common tasks.
+  - Different providing services (remote vs local).
   - How to use them from API and libraries.
   - How to "tune" them for specific (soft. eng.) tasks.
 - *Note:*
@@ -69,19 +71,22 @@
   - For this, please refer to the resources provided and the course on NLP.
 - *Next:*
   - Vertical focus on the use of LLM in Software Engineering.
-  - Research oriented directions.
+    - AI-assisted programming (e.g., code generation, code completion, etc.)
+    - Vibe coding
+    - Best practices for using LLMs in software engineering tasks.
+  - Research oriented directions)
 
-== NLP & Soft. Eng. -- Why BTW?
+== NLP & Software Engeneering -- Why BTW?
 #align(center)[
   #image("figures/copilot.png", width: 80%)
 
 ]
-== NLP & Soft. Eng. -- Why BTW?
+== NLP & Software Engeneering -- Why BTW?
 #align(center)[
   #image("figures/copilot copy.png", width: 100%)
 ]
 
-== NLP & Soft. Eng. -- Why BTW?
+== NLP & Software Engeneering -- Why BTW?
 #align(center)[
   #image("figures/soft-eng-improvements.png", width: 50%)
 ]
@@ -107,7 +112,7 @@
   #v(1em)
   
   #text(size: 20pt)[
-    A subfield of artificial intelligence that focuses on _understanding_, _interpreting_, and _generating_ human language.
+    A subfield of artificial intelligence that focuses on #underline[_understanding_], #underline[_interpreting_], and #underline[_generating_] human language.
   ]
   #v(1em)
 ]
@@ -131,12 +136,12 @@
   [
     #underline[*Goal*]
     #v(0.5em)
-    Identify the structure and meaning of _words_, _phases_, and _sentences_ in order to enable computers to understand and generate human language.
+    Identify the #underline[structure] and #underline[meaning] of _words_, _phases_, and _sentences_ in order to enable computers to #underline[understand] and #underline[generate] human language.
   ],
   [
     #underline[*Why?*]
     #v(0.5em)
-    Improve _human-computer_ interaction, closing the gap between _human communication_ and _computer understanding_.
+    Improve _human-computer_ interaction, closing the gap between _human communication_ and _computer "understanding"_.
   ]
 )
 
@@ -183,7 +188,7 @@
     - *Rule-Based:* Hand-crafted linguistic rules (e.g., #link("https://en.wikipedia.org/wiki/Georgetown-IBM_experiment")[Georgetown–IBM]).
     - *Statistical:* Probabilistic language modelling (e.g., hidden Markov model)#footnote("Mérialdo, B. (1994). Tagging English Text with a Probabilistic Model. Comput. Linguistics, 20(2), 155–171.")
     - *ML/Deep Learning:* Algorithms learn from data; neural networks model complex patterns (RNN#footnote("Yin, W., Kann, K., Yu, M., & Schütze, H. (2017). Comparative Study of CNN and RNN for Natural Language Processing. CoRR, abs/1702.01923. Retrieved from http://arxiv.org/abs/1702.01923"), LSTM#footnote("Hochreiter, S., & Schmidhuber, J. (1997). Long Short-Term Memory. Neural Comput., 9(8), 1735–1780. doi:10.1162/NECO.1997.9.8.1735"), GRU#footnote("Dey, R., & Salem, F. M. (2017). Gate-variants of Gated Recurrent Unit (GRU) neural networks. IEEE 60th International Midwest Symposium on Circuits and Systems, MWSCAS 2017, Boston, MA, USA")) 
-    - _Goal_: Find a *Language Model* that understands and generates human language.
+    //- _Goal_: Find a *Language Model* that understands and generates human language.
   ]
 )
 
@@ -194,7 +199,7 @@
   #v(1em)
   
   #text(size: 20pt)[
-    A _machine learning_ model that aims to predict and generate *plausible* text.
+    A #underline[_machine learning_] model that aims to #underline[predict] and #underline[generate] *plausible* text.
   ]
 
 
@@ -208,133 +213,120 @@
 ]
 == Language Models
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 2em,
-  [
-    #underline[*Fundamental Idea*]
-    #v(0.5em)
-    Text is a sequence of words, and language models learn the *probability distribution* of a word given the previous words in context.
-    
-    #v(1em)
-    #underline[*Simple Examples*]
-    #v(0.5em)
-    - _The customer was very happy with the <\*>_
-    - _The customer was very happy with the *service*._
-    - _The customer was very happy with the *product*._
-  ],
-  [
-    #underline[*Common Tasks*]
-    #v(0.5em)
-    - _Text Generation:_ Complete or continue text based on a prompt
-    - _Classification:_ Categorize text (sentiment, topic, intent)
-    - _Question Answering:_ Find answers within a context
-    - _Summarization:_ Condense longer texts into summaries
-    - _Translation:_ Convert text between languages
-  ]
-)
+#underline[*Fundamental Idea*]
+#v(0.5em)
+Text is a sequence of words, and language models learn the *probability distribution* of a word given the previous words in context.
+
+#v(1em)
+#underline[*Simple Example*]
+#v(0.5em)
+#align(center)[
+  #text(size: 24pt)[_The software engineer was very happy with the <\*>_]
+]
+
+#pause
+
+#align(center)[
+  $arrow.b$
+  
+  #text(size: 20pt)[_The software engineer was very happy with the *coffee*._ (80%)]
+  
+  #pause
+  #text(size: 20pt)[_The software engineer was very happy with the *unit-tests*._ (15%)]
+  #pause
+  #text(size: 20pt)[_The software engineer was very happy with the *codebase*._ (0.0001%)]
+]
 
 == Language Models -- Phases
 
+*1. Tokenization:* split raw text into discrete, manageable units (tokens).
+- _Example:_ "Unbelievable!" $arrow.r$ `["Un", "believ", "able", "!"]`
 
-*1. Tokenization:* split text into words, phrases, symbols, etc.
-- _Example:_ "Hello, world!" -> ["Hello", ",", "world", "!"]
+*2. Embedding:* map a fixed set of discrete tokens into dense numerical vectors (continuous space).
+- _Example:_ `["Un"]` $arrow.r$ `[0.25, -0.75, 0.5, ..., 1.0]` (captures semantic meaning).
 
-*2. Embedding:* convert words into numerical vectors.
-- _Example:_ "Hello" -> [0.25, -0.75, 0.5, 1.0]
-- It is possible to use pretrained embeddings (e.g., Word2Vec, BERT).
+*3. Modelling:* learn the contextual relationships and probability distributions of tokens.
+- _Example:_ $P("able" | "Un", "believ") = 0.95$
 
-*3. Modelling:* learn the probability of a word given the previous words.
-- _Example:_ P("world" | "Hello,") -> 0.8
-
-*4. Generation/Classification:* use the model to generate text or classify it.
-- _Example for Generation:_ Input: "The weather is" -> Output: "sunny."
-- _Example for Classification:_ Input: "This is a spam email." -> Output: Spam
+*4. Generation/Decoding:* sample from the predicted probabilities to produce the final output.
+- _Example:_ Given $P("able")=0.95, P("ably")=0.01$, select "able".
 
 #v(0.5em)
-
-*Note:* each NLP solution can use different techniques for each phase.
+*Note:* Modern LLMs integrate these phases into a massive, end-to-end pipeline. However, these phases can also be used as standalone solutions (e.g., using just a Tokenizer to count tokens, or just an Embedding model for #underline[semantic] search).
 
 == Tokenization
 
-#underline[*Tokenization: Breaking Text into Pieces*]
+=== #underline[Tokenization: Breaking Text into Pieces]
 #v(0.5em)
-Splitting text into discrete units (tokens) for the model to process.
+Splitting text into discrete subword units (tokens) for the model to process and generate.
 #link("https://platform.openai.com/tokenizer")
-
 #v(1em)
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 2em,
   [
-    #underline[*Example*]
+    #underline[Example (BPE)]
     #v(0.5em)
-    "I heard a dog bark loudly at a cat"
-    
+    "Tokens are subwords!"
+
     #text(size: 16pt)[
-      Tokenized as: {1, 2, 3, 4, 5, 6, 7, 3, 8}
+      Split as: ["Tok", "ens", " are", " sub", "words", "!"]
       
-      Where:
-      - I (1)
-      - heard (2)
-      - a (3)
-      - dog (4)
-      - bark (5)
-      - loudly (6)
-      - at (7)
-      - cat (8)
+      Mapped to IDs (e.g., GPT-5):
+      - Tokens (30325)
+      -  are (553)
+      -  sub (1543)
+      -  words (10020)
+      - ! (0)
+      - ...
     ]
   ],
   [
-    #underline[*In Practice*]
+    #underline[In Practice (State-of-the-Art)]
     #v(0.5em)
-    - Tokens can be words, subwords, or characters
-    - Modern models use subword tokenization
-    - Vocabulary size: typically 30k-100k tokens
-    - Out-of-vocabulary words get split into known tokens
-    - Special tokens: [START], [END], [PAD], [MASK]
+    //- Standard algorithms: Byte-Pair Encoding (BPE), SentencePiece.
+    - Modern vocabulary sizes up to ~250k (Gemini 3.1).
+    - Used bidirectionally: encodes input prompts and decodes text during generation.
+    - Unseen text is dynamically split into known subword fragments.
+    - Special tokens manage flow: `<|begin_of_text|>`, `<|eot_id|>`.
   ]
 )
 
 == Embedding
-
-#underline[*Embedding: Converting Words to Numbers*]
+=== #underline[Embedding: Converting Tokens to Contextual Vectors]
 #v(0.5em)
-Translating tokens into numerical vectors that capture *semantic meaning*.
-
+Translating token IDs into dense numerical arrays that capture semantic meaning in context.
 #v(1em)
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 2em,
   [
-    #underline[*Example*]
+    #underline[Example (Context Matters)]
     #v(0.5em)
-    "dog" might be represented as:
-    
+    The token "bank" gets a different vector based on surrounding text:
+
     #text(size: 16pt)[
-      [0.2, -0.4, 0.7, 0.1, ...]
+      "River *bank*" -> [0.12, -0.85, 0.33, ...]
+
+      "Secure *bank*" -> [-0.45, 0.22, 0.91, ...]
       
       Properties:
-      - Similar words have similar vectors
-      - "dog" is closer to "puppy" than to "table"
-      - Vector dimensions capture semantic features
-      - Enables mathematical operations on words
+      - Deeply contextual (vector shifts based on the sentence).
+      - Geometric distance = Semantic similarity.
     ]
   ],
   [
-    #underline[*In Practice*]
+    #underline[In Practice (State-of-the-Art)]
     #v(0.5em)
-    - Vectors typically have 100-1000 dimensions
-    - Word2Vec, GloVe: Static embeddings
-    - BERT, GPT: Contextual embeddings
-    - Enables semantic operations:
-      "king" - "man" + "woman" ≈ "queen"
-    - Forms foundation for downstream tasks
+    - Highly dimensional: typically 1024 to 12288+ dimensions per token.
+    - Standard models: OpenAI `text-embedding-3`, open-source BGE or Nomic.
+    - Computed dynamically on-the-fly inside modern Transformers.
+    - Replaced static embeddings (Word2Vec) to capture nuance.
+    - Serves as the continuous mathematical input for Self-Attention.
   ]
 )
-
 
 == Embedding -- Visual Example
 #align(
