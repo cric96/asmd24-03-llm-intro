@@ -74,22 +74,103 @@
     - AI-assisted programming (e.g., code generation, code completion, etc.)
     - Vibe coding
     - Best practices for using LLMs in software engineering tasks.
+  - And, also, the use of Software Engineering to build better AI-based app.
   - Research oriented directions)
 
-== NLP & Software Engeneering -- Why BTW?
-#align(center)[
-  #image("figures/copilot.png", width: 80%)
-
-]
-== NLP & Software Engeneering -- Why BTW?
-#align(center)[
-  #image("figures/copilot copy.png", width: 100%)
+#focus-slide[
+  Ok, but #underline[why?]
 ]
 
 == NLP & Software Engeneering -- Why BTW?
 #align(center)[
-  #image("figures/soft-eng-improvements.png", width: 50%)
+  #image("figures/tweet-1.png")
 ]
+
+== NLP & Software Engeneering -- Why BTW?
+#align(center)[
+  #image("figures/andreji.png", width: 80%)
+]
+
+== NLP & Software Engeneering -- Why BTW?
+#align(center)[
+  #image("figures/copilot.png", width: 40%)
+
+]
+#align(center)[
+  #image("figures/copilot copy.png", width: 50%)
+]
+
+== NLP & Software Engeneering -- Why BTW?
+#align(center)[
+  #image("figures/soft-eng-improvements.png", width: 60%)
+]
+
+== Software 1.0 to Software 3.0
+
+#set text(size: 16pt)
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  gutter: 1em,
+  [
+    #align(center)[
+      #underline[*Software 1.0*]
+      #v(0.5em)
+      _Rule-based (Code)_
+    ]
+  ],
+  [
+    #align(center)[
+      #underline[*Software 2.0*]
+      #v(0.5em)
+      _Machine Learning (NN)_
+    ]
+  ],
+  [
+    #align(center)[
+      #underline[*Software 3.0*]
+      #v(0.5em)
+      _Prompt Engineering (LLM)_
+    ]
+  ],
+  [
+    ```python
+    def sentiment(text):
+      good = ["great", "good"]
+      bad = ["bad", "awful"]
+      score = 0
+      for w in text.split():
+        if w in good: score += 1
+        if w in bad: score -= 1
+      return score > 0
+    ```
+  ],
+  [
+    ```python
+    model = nn.Sequential(
+      nn.Embedding(1000, 16),
+      nn.LSTM(16, 32),
+      nn.Linear(32, 1),
+      nn.Sigmoid()
+    )
+    # Requires dataset
+    # and training loop
+    model.fit(X_train, y_train)
+    ```
+  ],
+  [
+    ```python
+    prompt = f"""
+    Classify sentiment:
+    '{text}'
+    Output Positive or Negative.
+    """
+    response = llm.generate(
+      prompt=prompt
+    )
+    ```
+  ]
+)
+
 == NLP & Soft. Eng. -- Why Should We Care?
 - The Software Engineering landscape is *rapidly evolving*:
   - AI pair programmers (like Copilot) are becoming ubiquitous tools
