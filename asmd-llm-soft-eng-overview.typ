@@ -47,6 +47,13 @@
 #show strong: set text(weight: "bold", fill: rgb("#005587"))
 #show emph: set text(style: "italic", fill: rgb("#00a3e0"))
 #set underline(stroke: 1.5pt + rgb("#005587"), offset: 2pt)
+#show quote.where(block: true): it => block(
+  fill: rgb("#f4f8fa"),
+  inset: 1em,
+  radius: 0.2em,
+  stroke: (left: 4pt + rgb("#005587")),
+  text(style: "italic", it)
+)
 
 #title-slide()
 
@@ -61,26 +68,31 @@
 == Today Lesson
 - *Goal:* Understand the fundamentals of Natural Language Processing (NLP) and Language Models (LM).
 
-  - From a "practical" and "software engineering" perspective.
-  - Understanding the basic concepts and the common tasks.
-  - Different providing services (remote vs local).
+  - Adopting a #underline[practical] and #underline[Software Engineering] perspective.
+  - Understanding basic concepts, architectures, and common tasks.
+  - Different providing services (_remote_ vs _local_).
   - How to use them from API and libraries.
-  - How to "tune" them for specific (soft. eng.) tasks.
+  - How to "tune" them for specific tasks.
 - *Note:*
   - We will not dive too much into the details of the algorithms and the mathematics behind them.
-  - For this, please refer to the resources provided and the course on NLP.
+    - For this, please refer to the resources provided and the course on NLP.
 - *Next:*
-  - Vertical focus on the use of LLM in Software Engineering.
-    - AI-assisted programming (e.g., code generation, code completion, etc.)
-    - Vibe coding
+  - Vertical focus on the use of LLM (and Generative AI) in Software Engineering.
+    - #underline[AI-assisted programming] (e.g., code generation, code completion, etc.)
+    - #underline[Vibe coding]
     - Best practices for using LLMs in software engineering tasks.
   - And, also, the use of Software Engineering to build better AI-based app.
-  - Research oriented directions)
+  - Research oriented directions (e.g., multi-agent communication).
 
 #focus-slide[
-  Ok, but #underline[why?]
+  #text(size: 40pt, weight: "bold")[
+    Ok, but #underline[why?]
+  ]
 ]
-
+== NLP & Software Engeneering -- Why BTW?
+#align(center)[
+  #image("figures/unicorns.png")
+]
 == NLP & Software Engeneering -- Why BTW?
 #align(center)[
   #image("figures/tweet-1.png")
@@ -100,6 +112,13 @@
   #image("figures/copilot copy.png", width: 50%)
 ]
 
+== NLP & Software Engeneering -- Why BTW?
+#quote(block: true)[
+  AI is becoming a standard in developers’ lives: 85% of developers regularly use AI tools for coding and development, and 62% rely on at least one AI coding assistant, agent, or code editor.#footnote(link("https://blog.jetbrains.com/research/2025/10/state-of-developer-ecosystem-2025/"))
+]
+#align(center)[
+  #image("figures/dev-ai-society.png", width: 60%)
+]
 == NLP & Software Engeneering -- Why BTW?
 #align(center)[
   #image("figures/soft-eng-improvements.png", width: 60%)
@@ -173,17 +192,18 @@
 ]
 == NLP & Soft. Eng. -- Why Should We Care?
 - The Software Engineering landscape is *rapidly evolving*:
-  - AI pair programmers (like Copilot) are becoming ubiquitous tools
+  - AI #underline[pair programmers] (like Copilot) are becoming *ubiquitous* tools
   - LLMs can now handle tasks previously requiring human expertise:
-    - Intelligent code completion
-    - Automated documentation generation
+    - Smart _code completion_
+    - Automated _documentation generation_
     - Assisted refactoring and optimization
     - Test case generation
-  - Key questions for modern developers:
-    - What will be our role in this AI-augmented future?
-    - How can we best leverage NLP to enhance our productivity?
-    - Which skills remain uniquely human in software development?
-  - Understanding this technology isn't optional—it's essential for staying relevant
+  - Key questions for modern developers?:
+    - What will be our *role* in this AI-augmented future? 
+    - How can we best *leverage* NLP to enhance our productivity?
+    - Which skills remain #underline[_uniquely_ human] in software development? 
+    - _Spoiler_: I do not have the answers, unfortunately #emoji.face.sweat
+  - Understanding this technology isn't optional—*it's essential for staying relevant*
 
 = Natural Language Processing and (Large) Language Models
 #focus-slide()[
@@ -222,7 +242,7 @@
   [
     #underline[*Why?*]
     #v(0.5em)
-    Improve _human-computer_ interaction, closing the gap between _human communication_ and _computer "understanding"_.
+    Improve _human-computer_ interaction, closing the gap between _human communication_ and _computer #underline["understanding"]_.
   ]
 )
 
@@ -314,26 +334,68 @@ Text is a sequence of words, and language models learn the *probability distribu
   
   #pause
   #text(size: 20pt)[_The software engineer was very happy with the *unit-tests*._ (15%)]
+
   #pause
   #text(size: 20pt)[_The software engineer was very happy with the *codebase*._ (0.0001%)]
 ]
 
 == Language Models -- Phases
 
-*1. Tokenization:* split raw text into discrete, manageable units (tokens).
-- _Example:_ "Unbelievable!" $arrow.r$ `["Un", "believ", "able", "!"]`
+#align(center)[
+  #let phase-box(title, desc, example) = block(
+    fill: rgb("#f4f8fa"),
+    stroke: 1pt + rgb("#005587"),
+    radius: 0.4em,
+    inset: 0.4em,
+    width: 100%,
+    align(left)[
+      #text(size: 17pt)[*#title*] \
+      #text(size: 14pt)[#desc] \
+      #v(0.5em)
+      #text(size: 12pt, fill: rgb("#555555"))[_Ex:_ #example]
+    ]
+  )
 
-*2. Embedding:* map a fixed set of discrete tokens into dense numerical vectors (continuous space).
-- _Example:_ `["Un"]` $arrow.r$ `[0.25, -0.75, 0.5, ..., 1.0]` (captures semantic meaning).
+  #grid(
+    columns: (1fr, auto, 1fr),
+    rows: (auto, auto, auto),
+    gutter: 0.4em,
+    align: center + horizon,
+    phase-box(
+      "1. Tokenization", 
+      "Split raw text into discrete units.", 
+      ["Unbelievable!" $arrow.r$ `["Un", "believ", "able", "!"]`]
+    ),
+    text(fill: rgb("#005587"), size: 1.2em)[#fa-arrow-right()],
+    phase-box(
+      "2. Embedding", 
+      "Map tokens into dense numerical vectors.", 
+      [`["Un"]` $arrow.r$ `[0.25, -0.75, 0.5, ..., 1.0]`]
+    ),
+    
+    [], [], text(fill: rgb("#005587"), size: 1.2em)[#fa-arrow-down()],
 
-*3. Modelling:* learn the contextual relationships and probability distributions of tokens.
-- _Example:_ $P("able" | "Un", "believ") = 0.95$
+    phase-box(
+      "4. Generation", 
+      "Sample from probabilities to produce output.", 
+      [Given $P("able")=0.95$, select "able".]
+    ),
+    text(fill: rgb("#005587"), size: 1.2em)[#fa-arrow-left()],
+    phase-box(
+      "3. Modelling", 
+      "Learn contextual relationships and probabilities.", 
+      [$P("able" | "Un", "believ") = 0.95$]
+    )
+  )
+]
 
-*4. Generation/Decoding:* sample from the predicted probabilities to produce the final output.
-- _Example:_ Given $P("able")=0.95, P("ably")=0.01$, select "able".
+#text(size: 17pt)[
+  *Note:* Here we use tokens and words interchangeably for illustration purposes. In practice, #underline[tokens] are the actual units processed by the model.
+]
 
-#v(0.5em)
-*Note:* Modern LLMs integrate these phases into a massive, end-to-end pipeline. However, these phases can also be used as standalone solutions (e.g., using just a Tokenizer to count tokens, or just an Embedding model for #underline[semantic] search).
+#text(size: 17pt)[
+  *Note:* Modern LLMs integrate these phases into a massive, end-to-end pipeline. However, these phases can also be used as standalone solutions (e.g., using just a Tokenizer to count tokens, or just an Embedding model for #underline[semantic] search).
+]
 
 == Tokenization
 
@@ -409,6 +471,9 @@ Translating token IDs into dense numerical arrays that capture semantic meaning 
   ]
 )
 
+#align(center)[ 
+#link("https://dashboard.cohere.com/playground/embed")
+]
 == Embedding -- Visual Example
 #align(
   center,
@@ -417,81 +482,43 @@ Translating token IDs into dense numerical arrays that capture semantic meaning 
   ]
 )
 
-== Modelling -- How?
-#align(
-  center,
-  block[
-    #image("figures/text-generation.png", width: 100%)
-  ]
-)
 
+== Modelling -- Approaches
 
-== Modelling -- How?
-#align(
-  center,
-  block[
-    #image("figures/cnn-text.png", width: 100%)
-  ]
-)
-
-== Modelling -- CNN and RNN Limitations
-
-#underline[*Limitations of Traditional Approaches*]
-#v(0.5em)
-- *RNN:* Long-term dependencies are hard to capture
-- *RNN:* Slow to train; not suitable for large-scale data
-- *CNN:* Fixed-size input window; not suitable for variable-length text
-- *Both:* Struggle with large-scale parallelization
-- *Solution:* _Multi-head self-attention_ — the core of _transformers_
-
-#v(1em)
-Transformers overcome these limitations by:
-- Processing entire sequences in parallel
-- Using attention to weigh token importance
-- Capturing relationships across arbitrary distances
-- Enabling efficient training on massive datasets
-
-== Transformers -- Visual
-#align(
-  center,
-  block[
-    #image("figures/TransformerBasedTranslator.png", width: 100%)
-  ]
-)
-== Transformers Architecture
-
-#underline[*Transformers: State-of-the-Art for Language Models*]
+#underline[*Several approaches to model language:*]
 #v(1em)
 
 #grid(
-  columns: (1fr, 1fr),
-  gutter: 2em,
+  columns: (1fr, 1fr, 1fr),
+  gutter: 1em,
   [
-    #underline[*Architecture Types*]
+    #underline[*CNN*]
     #v(0.5em)
-    - *Encoder-only:*
-      - Creates embeddings from input text
-      - Use: Classification, token prediction
-      - Examples: BERT, RoBERTa
-      
-    - *Decoder-only:*
-      - Generates new text based on context
-      - Use: Continuations, chat responses
-      - Examples: *GPT family, LLaMA*
+    - Fixed-size sliding windows over text
+    - Good at capturing _local patterns_
+    - Limited by fixed receptive field
   ],
   [
-    #underline[*Full Transformers*]
+    #underline[*RNN / LSTM / GRU*]
     #v(0.5em)
-    - Contains both encoder and decoder
-    - *Encoder:* Processes input into intermediate representation
-    - *Decoder:* Converts representation into output text
-    - Example use case: Translation
-      - English → Intermediate representation → French
-    - Examples: *T5, BART, Marian MT*
-  ]
+    - Process tokens _sequentially_
+    - Can capture order and context
+    - Struggle with _long-range_ dependencies
+  ],
+  [
+    #underline[*Self-Attention*]
+    #v(0.5em)
+    - Each token attends to _all_ others
+    - Captures _arbitrary-distance_ relationships
+    - Fully _parallelizable_
+  ],
 )
 
-== Transformers -- Self-attention
+#align(center)[
+  #image("figures/cnn-text.png", width: 80%)
+]
+
+== Modelling -- Self-Attention
 
 #underline[*Self-attention: The Key to Context Understanding*] -- #link("https://bbycroft.net/llm")
 #v(1em)
@@ -535,6 +562,66 @@ Transformers overcome these limitations by:
 - Attention weights are *learned parameters* during model training
 - Multi-head attention allows model to focus on *different relationship types* simultaneously
 - This mechanism captures both *local and long-range dependencies*
+
+== CNN and RNN Limitations -- Why Self-Attention Wins
+
+#underline[*Limitations of Traditional Approaches*]
+#v(0.5em)
+- *RNN:* Long-term dependencies are hard to capture
+- *RNN:* Slow to train; not suitable for large-scale data
+- *CNN:* Fixed-size input window; not suitable for variable-length text
+- *Both:* Struggle with large-scale parallelization
+- *Solution:* _Multi-head self-attention_ — the core of _transformers_
+
+#v(1em)
+Self-attention overcomes these limitations by:
+- Processing entire sequences in parallel
+- Weighing token importance dynamically
+- Capturing relationships across arbitrary distances
+- Enabling efficient training on massive datasets
+
+== Transformers -- Visual
+#align(
+  center,
+  block[
+    #image("figures/TransformerBasedTranslator.png", width: 100%)
+  ]
+)
+
+
+#link("https://poloclub.github.io/transformer-explainer/")
+== Transformers Architecture
+
+#underline[*Transformers: State-of-the-Art for Language Models*]
+#v(1em)
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 2em,
+  [
+    #underline[*Architecture Types*]
+    #v(0.5em)
+    - *Encoder-only:*
+      - Creates embeddings from input text
+      - Use: Classification, token prediction
+      - Examples: BERT, RoBERTa
+      
+    - *Decoder-only:*
+      - Generates new text based on context
+      - Use: Continuations, chat responses
+      - Examples: *GPT family, LLaMA*
+  ],
+  [
+    #underline[*Full Transformers*]
+    #v(0.5em)
+    - Contains both encoder and decoder
+    - *Encoder:* Processes input into intermediate representation
+    - *Decoder:* Converts representation into output text
+    - Example use case: Translation
+      - English → Intermediate representation → French
+    - Examples: *T5, BART, Marian MT*
+  ]
+)
 
 == Text Generation: From Probabilities to Text 
 
