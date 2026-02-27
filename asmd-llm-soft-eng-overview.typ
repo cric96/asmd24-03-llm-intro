@@ -107,7 +107,7 @@
 
 == Software 1.0 to Software 3.0
 
-#set text(size: 16pt)
+#text(size: 16pt)[
 #grid(
   columns: (1fr, 1fr, 1fr),
   gutter: 1em,
@@ -170,7 +170,7 @@
     ```
   ]
 )
-
+]
 == NLP & Soft. Eng. -- Why Should We Care?
 - The Software Engineering landscape is *rapidly evolving*:
   - AI pair programmers (like Copilot) are becoming ubiquitous tools
