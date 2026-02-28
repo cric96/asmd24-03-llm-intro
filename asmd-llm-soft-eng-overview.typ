@@ -303,6 +303,11 @@
     A #underline[_machine learning_] model that aims to #underline[predict] and #underline[generate] *plausible* text.
   ]
 
+  #v(0.5em)
+
+  #text(size: 18pt)[
+    When a language model is used to _generate_ new content (text, code, images, ...), it is called a *Generative AI* model.
+  ]
 
   #align(
     center,
@@ -312,6 +317,18 @@
   )
   ]
 ]
+
+== On Generative AI
+- *Discriminative AI*:
+  - Models that #underline[classify] or #underline[predict] data (e.g., Regression, Classification).
+  - Focus on the boundary between classes (e.g., _"Is this a cat?"_).
+
+- *Generative AI*:
+  - A #underline[paradigm shift] enabled by Deep Learning.
+  - Models designed to *create* #underline[new content] (text, images, audio, code).
+  - Focus on the structure of the data itself to generate new instances (e.g., _"Generate a cat."_).
+
+#image("figures/genai.png")
 == Language Models
 
 #underline[*Fundamental Idea*]
@@ -368,7 +385,7 @@ Text is a sequence of words, and language models learn the *probability distribu
     ),
     text(fill: rgb("#005587"), size: 1.2em)[#fa-arrow-right()],
     phase-box(
-      "2. Embedding", 
+      "2. Word Embedding", 
       "Map tokens into dense numerical vectors.", 
       [`["Un"]` $arrow.r$ `[0.25, -0.75, 0.5, ..., 1.0]`]
     ),
@@ -394,7 +411,7 @@ Text is a sequence of words, and language models learn the *probability distribu
 ]
 
 #text(size: 17pt)[
-  *Note:* Modern LLMs integrate these phases into a massive, end-to-end pipeline. However, these phases can also be used as standalone solutions (e.g., using just a Tokenizer to count tokens, or just an Embedding model for #underline[semantic] search).
+  *Note:* Modern LLMs integrate these phases into a massive, end-to-end pipeline (e.g., transformers) that learns all components jointly during training.
 ]
 
 == Tokenization
@@ -436,51 +453,36 @@ Splitting text into discrete subword units (tokens) for the model to process and
   ]
 )
 
-== Embedding
-=== #underline[Embedding: Converting Tokens to Contextual Vectors]
+== Word Embedding
+=== #underline[Word Embedding: Converting Tokens to Semantic Vectors]
 #v(0.5em)
-Translating token IDs into dense numerical arrays that capture semantic meaning in context.
+Translating token IDs into *dense numerical arrays* that capture *semantic meaning* in context.
 #v(1em)
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 2em,
   [
-    #underline[Example (Context Matters)]
+    #underline[Example]
     #v(0.5em)
-    The token "bank" gets a different vector based on surrounding text:
-
+    Dog, Cat, and Car might be represented as:
     #text(size: 16pt)[
-      "River *bank*" -> [0.12, -0.85, 0.33, ...]
-
-      "Secure *bank*" -> [-0.45, 0.22, 0.91, ...]
+      - *Dog*: `[0.25, -0.75, 0.5, ..., 1.0]`
+      - *Cat*: `[0.30, -0.70, 0.45, ..., 0.95]`
+      - *Car*: `[-0.10, 0.20, -0.30, ..., 0.50]`
       
-      Properties:
-      - Deeply contextual (vector shifts based on the sentence).
-      - Geometric distance = Semantic similarity.
+      If the model understands that *Dog* and *Cat* are *more similar* to each other than to *Car*, the vectors will reflect that (e.g., *smaller distance* between Dog and Cat).
     ]
   ],
   [
-    #underline[In Practice (State-of-the-Art)]
+    #underline[In Practice]
     #v(0.5em)
-    - Highly dimensional: typically 1024 to 12288+ dimensions per token.
-    - Standard models: OpenAI `text-embedding-3`, open-source BGE or Nomic.
-    - Computed dynamically on-the-fly inside modern Transformers.
-    - Replaced static embeddings (Word2Vec) to capture nuance.
-    - Serves as the continuous mathematical input for Self-Attention.
+    - Modern embeddings typically are computed in the *same model architecture* (e.g., inside the *transformer layers*).
+    - In the past, they were often *pre-trained separately* (e.g., Word2Vec, GloVe).
+    - *GPT-2* uses *768 dimensions*, while *DeepSeek V3* has *7,168*.
   ]
 )
 
-#align(center)[ 
-#link("https://dashboard.cohere.com/playground/embed")
-]
-== Embedding -- Visual Example
-#align(
-  center,
-  block[
-    #image("figures/embedding-meaning.png", width: 100%)
-  ]
-)
 
 
 == Modelling -- Approaches
@@ -492,14 +494,14 @@ Translating token IDs into dense numerical arrays that capture semantic meaning 
   columns: (1fr, 1fr, 1fr),
   gutter: 1em,
   [
-    #underline[*CNN*]
+    #underline[CNN]
     #v(0.5em)
     - Fixed-size sliding windows over text
     - Good at capturing _local patterns_
     - Limited by fixed receptive field
   ],
   [
-    #underline[*RNN / LSTM / GRU*]
+    #underline[RNN / LSTM / GRU]
     #v(0.5em)
     - Process tokens _sequentially_
     - Can capture order and context
@@ -507,7 +509,7 @@ Translating token IDs into dense numerical arrays that capture semantic meaning 
   ],
   [
     #underline[*Self-Attention*]
-    #v(0.5em)
+    #v(1.5em)
     - Each token attends to _all_ others
     - Captures _arbitrary-distance_ relationships
     - Fully _parallelizable_
@@ -519,109 +521,62 @@ Translating token IDs into dense numerical arrays that capture semantic meaning 
 ]
 
 == Modelling -- Self-Attention
-
-#underline[*Self-attention: The Key to Context Understanding*] -- #link("https://bbycroft.net/llm")
-#v(1em)
+  //#underline[*Self-attention: The Key to Context Understanding*]
+#v(0.5em)
 
 #grid(
-  columns: (1fr, 1fr),
-  gutter: 2em,
+  columns: (1fr, 1.2fr),
+  gutter: 1.5em,
+  align: horizon,
+  align(center)[#image("figures/self-attention.png", width: 95%)],
   [
     #underline[*The Core Question*]
-    #v(0.5em)
-    For each token, self-attention asks:
-
-    "How much does each other token affect the interpretation of this token?"
-    
+    #v(0.3em)
+    For each token: _"How much does each other token affect its interpretation?"_
     - Attention weights determine token relationships
-    - "Self" means within the same input sequence
-    - Enables context-aware understanding
-  ],
-  [
-    #underline[*Example*]
+    - Captures *arbitrary-distance* dependencies
     #v(0.5em)
-    "The animal didn't cross the street because it was too tired."
-    
-    - Each word pays attention to all others
-    - Pronoun "it" is *ambiguous*
-    - Self-attention reveals: "it" refers to "animal"
-    - Resolves dependencies across *arbitrary distances*
+    #underline[*Example*]
+    #v(0.3em)
+    "The animal didn't cross the street because *it* was too tired."
+    - "it" is *ambiguous* — self-attention resolves it to "animal"
+    - Multi-head attention captures *different relationship types* simultaneously
   ]
 )
 
-== Self-attention -- Visual
 
-#align(
-  center,
-  block[
-    #image("figures/self-attention.png", width: 50%)
-  ]  
-)
-- Self-attention calculates *weighted relationships* between every token
-- These relationships reveal which parts of text should *influence* each token
-- Attention weights are *learned parameters* during model training
-- Multi-head attention allows model to focus on *different relationship types* simultaneously
-- This mechanism captures both *local and long-range dependencies*
+== Self-attention -- Mechanics
 
-== CNN and RNN Limitations -- Why Self-Attention Wins
+#text(size: 18pt)[
+  *Input:* A sequence of token embeddings (vectors).
 
-#underline[*Limitations of Traditional Approaches*]
-#v(0.5em)
-- *RNN:* Long-term dependencies are hard to capture
-- *RNN:* Slow to train; not suitable for large-scale data
-- *CNN:* Fixed-size input window; not suitable for variable-length text
-- *Both:* Struggle with large-scale parallelization
-- *Solution:* _Multi-head self-attention_ — the core of _transformers_
+  *Output:* A sequence of *context-aware* vectors. Each vector is a mixture of information from other tokens, weighted by their relevance (e.g., resolving "it" to "animal").
 
-#v(1em)
-Self-attention overcomes these limitations by:
-- Processing entire sequences in parallel
-- Weighing token importance dynamically
-- Capturing relationships across arbitrary distances
-- Enabling efficient training on massive datasets
+  *How it works (conceptually):*
+  - *Roles:* Each token is projected into three views:
+    - *Query:* What information the token is looking for.
+    - *Key:* What information the token contains.
+    - *Value:* The actual content to be passed along.
+  - *Attention:* Compute similarity between Queries and Keys to find relevance.
+  - *Aggregation:* Compute the weighted sum of Values based on attention scores.
+]
+== Modelling -- Self-Attention
+#image("figures/more-self-attention.png")
+
+
 
 == Transformers -- Visual
-#align(
-  center,
-  block[
-    #image("figures/TransformerBasedTranslator.png", width: 100%)
-  ]
-)
 
+- *Transformers* are the dominant architecture for LLMs.
+- They merge *word embedding* and *modelling* into a single end-to-end system.
+- The architecture relies on layers of *multi-head self-attention* and *feedforward networks*:
+  - *Multi-head attention* captures various relationships (e.g., syntax, semantics) simultaneously.
+  - *Feedforward layers* introduce non-linearity for complex pattern learning.
+- It is highly *parallelizable*, allowing training on massive datasets.
+- The output is a vector for each token, which results in a probability distribution to generate the next token in the sequence.
+#image("figures/end-to-end.png", width: 100%)
 
 #link("https://poloclub.github.io/transformer-explainer/")
-== Transformers Architecture
-
-#underline[*Transformers: State-of-the-Art for Language Models*]
-#v(1em)
-
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 2em,
-  [
-    #underline[*Architecture Types*]
-    #v(0.5em)
-    - *Encoder-only:*
-      - Creates embeddings from input text
-      - Use: Classification, token prediction
-      - Examples: BERT, RoBERTa
-      
-    - *Decoder-only:*
-      - Generates new text based on context
-      - Use: Continuations, chat responses
-      - Examples: *GPT family, LLaMA*
-  ],
-  [
-    #underline[*Full Transformers*]
-    #v(0.5em)
-    - Contains both encoder and decoder
-    - *Encoder:* Processes input into intermediate representation
-    - *Decoder:* Converts representation into output text
-    - Example use case: Translation
-      - English → Intermediate representation → French
-    - Examples: *T5, BART, Marian MT*
-  ]
-)
 
 == Text Generation: From Probabilities to Text 
 
@@ -653,10 +608,9 @@ Self-attention overcomes these limitations by:
   ]
 )
 
+
 == Text Generation: Temperature
 
-#underline[*Temperature: Controlling Randomness*]
-#v(1em)
 
 #grid(
   columns: (1fr, 1fr),
@@ -683,26 +637,46 @@ Self-attention overcomes these limitations by:
   ]
 )
 
-== Text Generation: Example
-
-#underline[*Example: Generating Text with Different Temperatures*]
-#v(1em)
-
+== Contextual Embedding
+- If you remove the last layer of a transformer, you get a *contextual embedding* for each token.
 #grid(
-  columns: (1fr),
-  gutter: 1em,
+  columns: (1fr, 1fr),
+  gutter: 2em,
   [
-    *Prompt:* The quick brown fox...
+    #underline[Example (Context Matters)]
+    #v(0.5em)
+    The token "bank" gets a different vector based on surrounding text:
+
+    #text(size: 16pt)[
+      "River *bank*" -> [0.12, -0.85, 0.33, ...]
+
+      "Secure *bank*" -> [-0.45, 0.22, 0.91, ...]
+      
+      Properties:
+      - Deeply contextual (vector shifts based on the sentence).
+      - Geometric distance = Semantic similarity.
+    ]
+  ],
+  [
+    #underline[In Practice (State-of-the-Art)]
+    #v(0.5em)
+    - *Highly* dimensional: typically 1024 to 12288+ dimensions per token.
+    - Standard models: OpenAI `text-embedding-3`, open-source BGE or Nomic.
     
-    *Temperature = 0.2:* The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox... (Repetitive)
-    
-    *Temperature = 0.7:* The quick brown fox jumps over the lazy dog. It was a sunny day, and the fox was happy.
-    
-    *Temperature = 1.2:* The quick brown fox dances with a sparkly unicorn under a rainbow made of cheese, giggling!
-    
-    _Note: These examples are illustrative. The actual output depends on the specific model._
   ]
 )
+
+#align(center)[ 
+#link("https://dashboard.cohere.com/playground/embed")
+]
+== Contextual Embedding -- Visual Example
+#align(
+  center,
+  block[
+    #image("figures/embedding-meaning.png", width: 100%)
+  ]
+)
+
 
 
 == Large Language Model (LLM)
@@ -717,6 +691,8 @@ Self-attention overcomes these limitations by:
     ]
   ]
 ]
+
+
 == LLM -- Implementation Strategies
 
 - *Transformers* as the foundational architecture, characterized by:
@@ -725,22 +701,23 @@ Self-attention overcomes these limitations by:
   - Model growth (_Scalability_)
 - *Pretraining:* Involves training the model on a vast corpus of text to learn a wide range of language patterns and structures.
 - *Fine-tuning:* Refines the pretrained model for specific tasks, enhancing its applicability and performance on targeted applications.
-
+#align(center)[
+    #image("figures/overall-idea.png", width: 85%)
+]
 == LLM -- Self-Supervised Phase
 
-#underline[*Self-Supervised Learning: Learning directly from data without human annotations*]
 #v(1em)
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 2em,
   [
-    #underline[*What Makes It Self-Supervised?*]
+    What Makes It *Self-Supervised?*
     #v(0.5em)
     - Data creates its *own supervision signal*
     - No human annotations or labels needed
     - Model learns to predict parts of its input
-    - Example: "The \_\_ of sleepy town weren't \_\_" #fa-arrow-right() "people, happy"
+    - Example: "The people of sleepy town weren't \_\_" #fa-arrow-right() "happy"
     - Leverages *natural structure* in language itself
   ],
   [
@@ -754,78 +731,101 @@ Self-attention overcomes these limitations by:
   ]
 )
 
-== LLM -- Training Paradigms
+== LLM -- Training Pipeline
 
-#underline[*The Learning Cake: An analogy to describe the layered approach in training methodologies.*]
+Modern LLM training is typically organized as a *pipeline* involving three main phases:
+
 #v(1em)
 
 #grid(
-  columns: (1fr),
+  columns: (1fr, 1fr, 1fr),
   gutter: 1em,
   [
-    - *Self-supervised Learning:* Models learn patterns from unlabelled data, reducing the need for expensive annotations. Ideal for initial _understanding_ of language structures.
-    
-    - *Supervised Learning:* Enhances accuracy with labeled data, crucial for tasks requiring specific outcomes like _classification_ and _translation_.
-    
-    - *Reinforcement Learning:* Adapts through trial and error using rewards, fine-tuning decision-making skills in scenarios like _dialogue generation_ (chatbots).
+    #set align(center)
+    #underline[*1. Pretraining*]
+    #v(0.5em)
+    #set align(left)
+    - *Goal:* Learn general language patterns & world knowledge.
+    - *Signal:* Next-token prediction on massive unlabeled corpora.
+    - *Result:* fluent, but not instruction-following.
+    #v(0.5em)
+    #text(size: 16pt, style: "italic", fill: rgb("#555555"))[
+      "What continuations are likely in text?"
+    ]
+  ],
+  [
+    #set align(center)
+    #underline[*2. Instruction Tuning*] 
+    #v(1em)
+    #set align(left)
+    - *Goal:* Follow instructions and specific tasks.
+    - *Signal:* Labeled "prompt $arrow.r$ ideal response" pairs.
+    - *Result:* *"Instruction-tuned"* model.
+    #v(0.5em)
+    #text(size: 16pt, style: "italic", fill: rgb("#555555"))[
+      "What should I do when asked?"
+    ]
+  ],
+  [
+    #set align(center)
+    #underline[*3. Alignment*] 
+    #v(0.5em)
+    #set align(left)
+    - *Goal:* Match human preferences (safety, helpfulness).
+    - *Signal:* Human preference comparisons (A vs B).
+    - *Result:* safe & helpful assistant.
+    #v(0.5em)
+    #text(size: 16pt, style: "italic", fill: rgb("#555555"))[
+      "What response is preferred/safe?"
+    ]
   ]
 )
 
-== LLM -- Paradigm Shift
+#v(1em)
+*Note:* Steps 2 and 3 are often iterated to fix regressions and target specific domains.
+
+== LLM -- Foundational Models and Paradigm Shift
 #align(center)[
   #image("figures/llm-idea.jpg", width: 80%)
 ]
-- LLMs are foundational for Modern NLP !!
-
-== LLM -- Foundational Models (GenAI)
 - A *Foundational Model* is a large model that serves as the basis for a wide range of downstream applications.
-- It is related to several generative AI models (diffusion, transformers, etc.).
-#align(center)[
-  #image("figures/foundation.jpg", width: 60%)
-]
 
-== Difference with Traditional Models
 
-#underline[*Traditional ML Pipeline vs. Foundation Model Approach*]
+== Traditional ML Pipeline vs. Foundation Model Approach
+
 #v(1em)
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 2em,
   [
-    #underline[*Traditional ML*]
+    #align(center)[*Traditional ML*]
     #v(0.5em)
     - Task-specific datasets
-    - Models built for single purposes
+    - Models built for #underline[single] purposes
     - Linear development pipeline
-    - Requires retraining for new tasks
-    - Limited transfer of knowledge
+    - Requires *retraining* for new tasks
+    - Limited #underline[transfer of knowledge]
   ],
   [
-    #underline[*Foundation Model Approach*]
+    #align(center)[*Foundation Model Approach*]
     #v(0.5em)
-    - General knowledge acquisition first
+    - *General knowledge* acquisition first
     - Adaptation to downstream tasks
-    - Efficient knowledge transfer
-    - Zero/few-shot capabilities
-    - Single model, multiple applications
+    - Efficient #underline[knowledge transfer]
+    - Zero/few-shot capabilities --- more later
   ]
 )
 
 - Adaptation is a kind of "transfer learning" to other tasks
 - With foundational LLMs, this adaptation may not require additional learning:
-  - LLMs function as zero-shot or few-shot learners (more details later)
-  - With just the right instructions (prompts), they can perform a wide range of tasks
-- This represents a fundamental paradigm shift in AI and NLP development
+  - LLMs function as *zero-shot* or *few-shot* learners (more details later)
+  - With just the right instructions (*prompts*), they can perform a wide range of tasks
+- This represents a *fundamental paradigm shift* in AI and NLP development
 
 == LLM -- Scalability
 #align(center)[
-  #image("figures/over-year.jpg", width: 100%)
-]
-
-== LLM -- Scalability
-#align(center)[
-  #image("figures/image-size.png", width: 100%)
+  #image("figures/model-over-time.png", width: 100%)
 ]
 
 == LLM -- Emergent Properties#footnote("Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S., ... & Zhou, D. (2022). Emergent abilities of large language models. arXiv preprint arXiv:2206.07682.")
@@ -841,10 +841,95 @@ Self-attention overcomes these limitations by:
   #image("figures/big.jpg", width: 80%)
 ]
 
+
+== LLM Applications in a Nutshell
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  gutter: 1em,
+  align: top,
+  [
+    #align(center)[
+      #image("figures/image.svg", height: 6em, fit: "contain")
+      #v(0.5em)
+      *Chatbots & Assistants*
+    ]
+    #v(0.5em)
+    - General purpose interaction
+    - Content generation
+    - Coding assistants
+  ],
+  [
+    #align(center)[
+      #image("figures/palm-med.png", height: 6em, fit: "contain")
+      #v(0.5em)
+      *Specialized Domains*
+    ]
+    #v(0.5em)
+    - Medical diagnosis (Med-PaLM)
+    - Legal analysis
+    - Scientific research
+  ],
+  [
+    #align(center)[
+      #image("figures/generalistic-agent.jpeg", height: 6em, fit: "contain")
+      #v(0.5em)
+      *Embodied AI*
+    ]
+    #v(0.5em)
+    - Robotics control
+    - Generalist agents (Gato)
+    - Multi-modal interaction
+  ]
+)
+
+== Critical Concerns and Limitations
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  gutter: 1em,
+  align: top,
+  [
+    #align(center)[
+      #image("figures/training-cost.jpg", height: 6em, fit: "contain")
+      #v(0.5em)
+      *Training Costs*
+    ]
+    #v(0.5em)
+    - Massive compute requirements
+    - Environmental impact
+    - Centralization of power
+  ],
+  [
+    #align(center)[
+      #image("figures/italy-privacy-concern.png", height: 6em, fit: "contain")
+      #v(0.5em)
+      *Privacy & Legal*
+    ]
+    #v(0.5em)
+    - Data leakage risks
+    - Copyright infringement
+    - GDPR compliance
+  ],
+  [
+    #align(center)[
+      #image("figures/hallucinations.png", height: 6em, fit: "contain")
+      #v(0.5em)
+      *Reliability*
+    ]
+    #v(0.5em)
+    - #underline[Hallucinations:] Confidently stating false facts
+    - Lack of grounding
+    - Bias and fairness issues
+  ]
+)
+
+= LLM in Practice -- API and Prompt Engineering
+
 == LLM -- State-of-the-art foundational models
 
 - "Open" vs "Closed" models
-  - Open -> are available for public use and research (you have access to the model and its parameters).
+  - Open -> are available for public use and research.
   - Closed -> are proprietary and not available for public use or research (you can just use the API).
 - *GPT-\** (Closed): generative Pre-trained Transformer (OpenAI)
   - State-of-the-art in _language generation_ and _translation_.
@@ -862,38 +947,6 @@ Self-attention overcomes these limitations by:
   More at: #link("https://lifearchitect.ai/models-table/")
 ]
 
-== LLM Applications: Chatbots #footnote[#link("https://openai.com/blog/chatgpt")]
-#align(center)[
-  #image("figures/image.svg", width: 100%)
-]
-
-== LLM Applications: Medical Diagnosis #footnote[#link("https://sites.research.google/med-palm/")]
-#align(center)[
-  #image("figures/palm-med.png", width: 100%)
-]
-
-== Robotics #footnote[#link("https://deepmind.google/discover/blog/a-generalist-agent/")]
-#align(center)[
-  #image("figures/generalistic-agent.jpeg", width: 90%)
-]
-
-== LLM Concerns -- Training Cost
-#align(center)[
-  #image("figures/training-cost.jpg", width: 80%)
-]
-
-== LLM Concerns -- Privacy
-#align(center)[
-  #image("figures/italy-privacy-concern.png", width: 100%)
-]
-
-== LLM Concerns -- Hallucination
-_Hallucination_ is the generation of text that is not grounded in reality.
-#align(center)[
-  #image("figures/hallucinations.png", width: 100%)
-]
-
-= LLM in Practice -- API and Prompt Engineering
 
 == Interact with LLMs
 
