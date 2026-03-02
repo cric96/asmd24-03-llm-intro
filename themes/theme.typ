@@ -119,7 +119,7 @@
   let info = self.info + args.named()
   let body = {
     grid(
-      columns: (0.2fr, 4fr),
+      columns: (0.0fr, 4fr),
       rows: 100%,
       block(
         width: 100%,
